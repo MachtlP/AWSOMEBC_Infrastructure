@@ -1,0 +1,27 @@
+/* Figure captions, as in the AWSOME BC User Guide */
+.md-typeset .fig-caption {
+  font-size: 0.78rem;
+  color: var(--md-default-fg-color--light);
+  margin-top: -0.4rem;
+  margin-bottom: 1.4rem;
+}
+
+.md-typeset img {
+  border-radius: 6px;
+}
+
+/* "Last updated" line under each page title */
+.md-typeset .updated {
+  font-size: 0.75rem;
+  color: var(--md-default-fg-color--light);
+  margin-top: -0.8rem;
+}
+
+/* Mermaid flow charts: use the full content width */
+.md-typeset .mermaid {
+  text-align: center;
+}
+
+.md-typeset table:not([class]) th {
+  white-space: nowrap;
+}

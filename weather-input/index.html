@@ -1,0 +1,1768 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Technical documentation of the snowpackbc tool chain (AWSOME for British Columbia)">
+      
+      
+      
+        <link rel="canonical" href="https://machtlp.github.io/AWSOMEBC_Infrastructure/weather-input/">
+      
+      
+        <link rel="prev" href="../toolchain/">
+      
+      
+        <link rel="next" href="../snowpack/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/mountain_icon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
+    
+    
+      
+        <title>III. Weather Input - AWSOME BC Infrastructure</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#iii-weather-input" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="AWSOME BC Infrastructure" class="md-header__button md-logo" aria-label="AWSOME BC Infrastructure" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 19h1a1 1 0 0 1 1 1h7v2h-7a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1H2v-2h7a1 1 0 0 1 1-1h1v-2H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-7zM4 3h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1m5 4h1V5H9zm0 8h1v-2H9zM5 5v2h2V5zm0 8v2h2v-2z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AWSOME BC Infrastructure
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              III. Weather Input
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="light-blue"  aria-label="Follow system theme"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Follow system theme" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/MachtlP/AWSOMEBC_Infrastructure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AWSOMEBC_Infrastructure
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="AWSOME BC Infrastructure" class="md-nav__button md-logo" aria-label="AWSOME BC Infrastructure" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 19h1a1 1 0 0 1 1 1h7v2h-7a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1H2v-2h7a1 1 0 0 1 1-1h1v-2H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-7zM4 3h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1m5 4h1V5H9zm0 8h1v-2H9zM5 5v2h2V5zm0 8v2h2v-2z"/></svg>
+
+    </a>
+    AWSOME BC Infrastructure
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/MachtlP/AWSOMEBC_Infrastructure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AWSOMEBC_Infrastructure
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    I. Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../toolchain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    II. Tool Chain Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    III. Weather Input
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    III. Weather Input
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-data-we-pull" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Data we pull
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Data we pull">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-hrdps-snowpack-forcing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 HRDPS (SNOWPACK forcing)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-further-nwp-archives-not-used-by-snowpack-yet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Further NWP archives (not used by SNOWPACK yet)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-msc-snow-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 MSC snow level
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-weather-stations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Weather stations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-download" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Download
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-correction-to-cell-elevation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Correction to cell elevation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Correction to cell elevation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Steps
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-nowcast-and-forecast-stitching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Nowcast and forecast stitching
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-side-products" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Side products
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-smet-assembly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. SMET assembly
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. SMET assembly">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-semi-distributed-smet_hex_v2py" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Semi-distributed: smet_hex_v2.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-fully-gridded-smet_gridpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Fully gridded: smet_grid.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-stations-smet_stationspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Stations: smet_stations.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-smet-details-that-matter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 SMET details that matter
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-weather-stations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Weather stations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Weather stations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-ingest-stations_fetchpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Ingest: stations_fetch.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-patching-smet_stationspy-configsstations_v1yaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Patching: smet_stations.py + configs/stations_v1.yaml
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-weather-values-for-the-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Weather values for the dashboard
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-script-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Script map
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../snowpack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IV. SNOWPACK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xsnow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    V. xsnow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../avapro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VI. AvAPro
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../observations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VII. Observations & Assessments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-data-we-pull" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Data we pull
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Data we pull">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-hrdps-snowpack-forcing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 HRDPS (SNOWPACK forcing)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-further-nwp-archives-not-used-by-snowpack-yet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Further NWP archives (not used by SNOWPACK yet)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-msc-snow-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 MSC snow level
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-weather-stations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Weather stations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-download" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Download
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-correction-to-cell-elevation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Correction to cell elevation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Correction to cell elevation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Steps
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-nowcast-and-forecast-stitching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Nowcast and forecast stitching
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-side-products" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Side products
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-smet-assembly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. SMET assembly
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. SMET assembly">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-semi-distributed-smet_hex_v2py" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Semi-distributed: smet_hex_v2.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-fully-gridded-smet_gridpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Fully gridded: smet_grid.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-stations-smet_stationspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Stations: smet_stations.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-smet-details-that-matter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 SMET details that matter
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-weather-stations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Weather stations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Weather stations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-ingest-stations_fetchpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Ingest: stations_fetch.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-patching-smet_stationspy-configsstations_v1yaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Patching: smet_stations.py + configs/stations_v1.yaml
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-weather-values-for-the-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Weather values for the dashboard
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-script-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Script map
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/MachtlP/AWSOMEBC_Infrastructure/edit/main/docs/weather-input.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="iii-weather-input">III. Weather Input<a class="headerlink" href="#iii-weather-input" title="Permanent link">&para;</a></h1>
+<p class="updated">Last updated: 25 Nov 2026</p>
+
+<p>Every configuration is driven by the same weather: HRDPS, downloaded once, corrected once to the elevation of each
+2.5 km cell, and then assembled into SMET files per model point. The station configuration adds observations from
+the operations' weather stations on top.</p>
+<pre class="mermaid"><code>flowchart LR
+  A["Datamart&lt;br/&gt;HRDPS GRIB2"] --&gt;|nwp_fetch.py| B[("raw/hrdps&lt;br/&gt;clipped, unchanged")]
+  B --&gt;|hrdps_correct.py&lt;br/&gt;lapse.py| C[("corrected/hrdps&lt;br/&gt;_cells.nc")]
+  B --&gt;|--gust-pending| G[("_gust.nc")]
+  A --&gt;|snlvl_fetch.py| L[("_snlvl.nc")]
+  C --&gt; H["smet_hex_v2.py"]
+  C --&gt; R["smet_grid.py"]
+  C --&gt; S["smet_stations.py"]
+  O["station feeds"] --&gt;|stations_fetch.py| OR[("raw/stations")] --&gt; S
+  H &amp; R &amp; S --&gt; M["SMET + locations + regions&lt;br/&gt;+ snippets + manifest"]
+  G &amp; L --&gt; X["geojson_extras.py"]</code></pre>
+<p class="fig-caption"><strong>Figure 1.</strong> Weather data from Datamart to the SNOWPACK input files.</p>
+
+<h2 id="1-data-we-pull">1. Data we pull<a class="headerlink" href="#1-data-we-pull" title="Permanent link">&para;</a></h2>
+<h3 id="11-hrdps-snowpack-forcing">1.1 HRDPS (SNOWPACK forcing)<a class="headerlink" href="#11-hrdps-snowpack-forcing" title="Permanent link">&para;</a></h3>
+<p>ECCC/MSC <strong>High Resolution Deterministic Prediction System</strong>, 2.5 km, continental domain, runs <strong>00/06/12/18Z</strong>,
+hourly leads <strong>0–48</strong>. Settings in <code>ingest/config.yaml</code>.</p>
+<table>
+<thead>
+<tr>
+<th>SMET field</th>
+<th>Datamart file pattern</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TA</td>
+<td><code>_TMP_AGL-2m_</code></td>
+<td>2 m air temperature</td>
+</tr>
+<tr>
+<td>RH</td>
+<td><code>_RH_AGL-2m_</code></td>
+<td>2 m relative humidity</td>
+</tr>
+<tr>
+<td>VW</td>
+<td><code>_WIND_AGL-10m_</code></td>
+<td>10 m wind speed</td>
+</tr>
+<tr>
+<td>DW</td>
+<td><code>_WDIR_AGL-10m_</code></td>
+<td>10 m wind direction</td>
+</tr>
+<tr>
+<td>ISWR</td>
+<td><code>_DSWRF_Sfc_</code></td>
+<td>incoming shortwave radiation</td>
+</tr>
+<tr>
+<td>ILWR</td>
+<td><code>_DLWRF_Sfc_</code></td>
+<td>incoming longwave radiation</td>
+</tr>
+<tr>
+<td>PSUM</td>
+<td><code>_MSC_HRDPS-WEonG_APCP_Sfc_</code></td>
+<td>precipitation, accumulated since run start</td>
+</tr>
+<tr>
+<td>GUST <em>(optional)</em></td>
+<td><code>_GUST_AGL-10m_</code></td>
+<td>10 m gust, dashboard only</td>
+</tr>
+<tr>
+<td>HGT <em>(optional)</em></td>
+<td><code>_HGT_Sfc_</code></td>
+<td>model orography (lead 0)</td>
+</tr>
+</tbody>
+</table>
+<p>A run counts as complete only when every required field exists for every lead.</p>
+<h3 id="12-further-nwp-archives-not-used-by-snowpack-yet">1.2 Further NWP archives (not used by SNOWPACK yet)<a class="headerlink" href="#12-further-nwp-archives-not-used-by-snowpack-yet" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Model key</th>
+<th>What</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>hrdps_precip</code></td>
+<td>plain HRDPS model precipitation: <code>APCP</code> (since run start), <code>APCP-Accum1h</code> (hourly), <code>PRATE</code></td>
+<td>decided as the future PSUM source (instead of WEonG); archived and backfilled to 4 Oct 2026, the switch in <code>hrdps_correct.py</code> is still to do</td>
+</tr>
+<tr>
+<td><code>rdps</code></td>
+<td>RDPS 10 km, leads 0–84, same variables (long Datamart names, radiation accumulated)</td>
+<td>day-3 forecast and HRDPS fallback later</td>
+</tr>
+</tbody>
+</table>
+<h3 id="13-msc-snow-level">1.3 MSC snow level<a class="headerlink" href="#13-msc-snow-level" title="Permanent link">&para;</a></h3>
+<p><code>HRDPS-WEonG HGTSNLVL_Sfc</code> (m), read by <code>pipeline/snlvl_fetch.py</code> for the dashboard's comparison filter. It is
+kept <strong>out of</strong> the raw archive on purpose: cfgrib may call it <code>unknown</code>, the same name as the WEonG precipitation, so
+it could end up as PSUM.</p>
+<h3 id="14-weather-stations">1.4 Weather stations<a class="headerlink" href="#14-weather-stations" title="Permanent link">&para;</a></h3>
+<p>See <a href="#7-weather-stations">§7</a>.</p>
+<h2 id="2-download">2. Download<a class="headerlink" href="#2-download" title="Permanent link">&para;</a></h2>
+<p><code>ingest/nwp_fetch.py</code>, hourly at :20 UTC (systemd timer), 96 h look-back.</p>
+<ul>
+<li><strong>Source:</strong> MSC Datamart, dated tree first (<code>https://dd.weather.gc.ca/{date}/WXO-DD</code>), then the "today" tree.
+  Datamart keeps about 30 days.</li>
+<li><strong>Clip:</strong> BC/Alberta box, lon −132…−110°, lat 48…57°, cut as an <strong>index sub-box</strong> on the native rotated grid
+  (<code>wgrib2 -ijsmall_grib</code>). Values are not changed.</li>
+<li><strong>Archive:</strong> one file per run in the ops bucket, the same name the old cluster used, so <code>grib2smet.py</code> and later
+  reanalyses read it unchanged:</li>
+</ul>
+<div class="highlight"><pre><span></span><code>raw/hrdps/YYYY/MM/DD/HRDPS_YYYYMMDDHH.grib2
+raw/hrdps/YYYY/MM/DD/HRDPS_YYYYMMDDHH.manifest.json      &lt;- written last = "run complete"
+raw/hrdps_precip/YYYY/MM/DD/HRDPS_PRECIP_YYYYMMDDHH.grib2
+raw/rdps/YYYY/MM/DD/RDPS_YYYYMMDDHH.grib2
+</code></pre></div>
+<ul>
+<li><strong>Idempotent:</strong> runs whose manifest says complete are skipped. <code>raw/</code> moves to Glacier Instant Retrieval after 30 days.</li>
+<li><strong>Checks:</strong> <code>ingest/nwp_check.py</code> (daily 15:05 UTC) e-mails when a run of the last two days is missing or
+  incomplete; <code>ingest/nwp_status.py</code> writes a status page every 30 min.</li>
+<li><strong>Season start:</strong> the archive starts <strong>4 Oct 2026</strong>, so every simulation cold-starts on that day.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>nwp_fetch.py<span class="w">                                   </span><span class="c1"># every run in the look-back window not yet archived</span>
+nwp_fetch.py<span class="w"> </span>--model<span class="w"> </span>hrdps<span class="w"> </span>--date<span class="w"> </span><span class="m">20261102</span><span class="w"> </span>--run<span class="w"> </span><span class="m">06</span>
+nwp_fetch.py<span class="w"> </span>--list<span class="w"> </span>hrdps<span class="w">                      </span><span class="c1"># file names Datamart offers (to check the regexes)</span>
+</code></pre></div>
+<h2 id="3-correction-to-cell-elevation">3. Correction to cell elevation<a class="headerlink" href="#3-correction-to-cell-elevation" title="Permanent link">&para;</a></h2>
+<p><code>pipeline/hrdps_correct.py</code> with <code>pipeline/lapse.py</code>. One archived run in, one NetCDF out:</p>
+<div class="highlight"><pre><span></span><code>corrected/hrdps/YYYY/MM/DD/HRDPS_YYYYMMDDHH_cells.nc
+  dims (cell, time)   time = valid time of leads 1..48 (hourly values ending at that time)
+  vars TA RH VW DW ISWR ILWR PSUM in SMET units (°C, %, m/s, °, W/m², mm/h) + TA_raw, RH_raw
+</code></pre></div>
+<h3 id="31-points">3.1 Points<a class="headerlink" href="#31-points" title="Permanent link">&para;</a></h3>
+<p><strong>1664 points</strong> = the HRDPS cells of the four operations (<code>static/cells/all_operations_hrdps_corrected.geojson</code>).
+Each point has</p>
+<ul>
+<li><code>z</code> = median <strong>MRDEM-30</strong> (NRCan 30 m DEM) of the cell clipped to the operation polygon,</li>
+<li><code>z_hrdps</code> = HRDPS model orography at the nearest grid node,</li>
+<li><code>dz_hr = z − z_hrdps</code>.</li>
+</ul>
+<p>Every generator indexes cells by position, so every corrected file must hold the same cells in the same order. Cells
+added later are appended at the end (<code>--add-missing-cells</code>), and existing ones stay bit-identical.</p>
+<h3 id="32-steps">3.2 Steps<a class="headerlink" href="#32-steps" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Nearest cell:</strong> each point takes the nearest HRDPS grid node.</li>
+<li><strong>Units:</strong> K → °C. Accumulated fields (<code>stepType=accum</code>: APCP, radiation if delivered as J/m²) are de-accumulated
+   to hourly values; the decision per field is logged and stored in the file attributes.</li>
+<li>
+<p><strong>Lapse-rate correction</strong> of TA and RH from <code>z_hrdps</code> to <code>z</code> (same method as Avalanche Canada's <code>grib2smet.py</code>,
+   ported unchanged from the R original; monthly rates after Marsh (2024), Kunkel (1989), Shea et al. (2004)):</p>
+<ul>
+<li><code>TA_corr = TA − dz · Γ_T(month)</code></li>
+<li>RH via the dew point: RH → vapour pressure (Magnus) → Td → <code>Td_corr = Td − dz · (c/b) · λ(month)</code> → RH from
+  <code>Td_corr</code> and <code>TA_corr</code>.</li>
+<li>PSUM, radiation and wind are <strong>not</strong> changed.</li>
+</ul>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Month</th>
+<th>J</th>
+<th>F</th>
+<th>M</th>
+<th>A</th>
+<th>M</th>
+<th>J</th>
+<th>J</th>
+<th>A</th>
+<th>S</th>
+<th>O</th>
+<th>N</th>
+<th>D</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Γ_T (°C km⁻¹)</td>
+<td>4.4</td>
+<td>5.9</td>
+<td>7.1</td>
+<td>7.8</td>
+<td>8.1</td>
+<td>8.2</td>
+<td>8.1</td>
+<td>8.1</td>
+<td>7.7</td>
+<td>6.8</td>
+<td>5.5</td>
+<td>4.7</td>
+</tr>
+<tr>
+<td>λ (km⁻¹)</td>
+<td>0.41</td>
+<td>0.42</td>
+<td>0.40</td>
+<td>0.39</td>
+<td>0.38</td>
+<td>0.36</td>
+<td>0.33</td>
+<td>0.33</td>
+<td>0.36</td>
+<td>0.37</td>
+<td>0.40</td>
+<td>0.40</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Lapse-rate correction: HRDPS gives 2 m temperature at its smoothed terrain height; each cell is moved to its real elevation." src="../assets/images/lapse_correction.svg" /></p>
+<p class="fig-caption"><strong>Figure 2.</strong> Lapse-rate correction: peaks get colder, valleys warmer.</p>
+
+<div class="admonition warning">
+<p class="admonition-title">RH method: <code>fixed</code>, not <code>grib2smet</code></p>
+<p>The original <code>grib2smet.py</code> adds 273.15 inside the Magnus formula, which expects °C. RH is then inflated even at
+<code>dz = 0</code> (−5 °C / 80 % → 94 %) and hardly reacts to <code>dz</code>. snowpackbc uses <code>RH_METHOD=fixed</code> (since 3 Nov 2026):
+RH stays unchanged at <code>dz = 0</code>. Season median RH went from 92 % to 70 % (raw HRDPS: 70 %); HS changed mostly by
+1–2 cm. <code>TA_raw</code> / <code>RH_raw</code> stay in every file, so the old method can always be recomputed for comparison.</p>
+</div>
+<div class="highlight"><pre><span></span><code>hrdps_correct.py<span class="w"> </span>--pending<span class="w">              </span><span class="c1"># every archived run without a corrected file (daily run)</span>
+hrdps_correct.py<span class="w"> </span>--date<span class="w"> </span><span class="m">20261101</span><span class="w"> </span>--run<span class="w"> </span><span class="m">00</span>
+hrdps_correct.py<span class="w"> </span>--recompute-rh<span class="w">         </span><span class="c1"># rewrite TA/RH of all files from TA_raw/RH_raw</span>
+</code></pre></div>
+<h2 id="4-nowcast-and-forecast-stitching">4. Nowcast and forecast stitching<a class="headerlink" href="#4-nowcast-and-forecast-stitching" title="Permanent link">&para;</a></h2>
+<p>The SMET generators build two hourly series per point from the corrected runs:</p>
+<table>
+<thead>
+<tr>
+<th>Series</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>nowcast</strong></td>
+<td>each hour <em>t</em> takes the newest run <em>R</em> with 1 ≤ <em>t</em> − <em>R</em> ≤ 6 h (leads 1–6 of the 00/06/12/18Z runs); if that run is missing, the next older run covering <em>t</em> (lead ≤ 48) fills it</td>
+</tr>
+<tr>
+<td><strong>forecast</strong></td>
+<td>the day's <strong>06Z</strong> run, leads 1–48</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="How the hourly forcing is assembled: the past from the first 6 hours of each run, the next 48 h from the 06Z run." src="../assets/images/nowcast_stitching.svg" /></p>
+<p class="fig-caption"><strong>Figure 3.</strong> Nowcast from the first 6 h of each run, forecast from the 06Z run.</p>
+
+<div class="admonition danger">
+<p class="admonition-title">Gaps stop the run</p>
+<p>The manifest counts <code>gap_hours</code> (hours no run covers). The daily run <strong>stops if <code>gap_hours &gt; 0</code></strong>: the PSUM
+snippet (§6.4) would otherwise turn missing precipitation into 0 mm.</p>
+</div>
+<h2 id="5-side-products">5. Side products<a class="headerlink" href="#5-side-products" title="Permanent link">&para;</a></h2>
+<p>Not SNOWPACK forcing; used only for the dashboard's weather filters.</p>
+<table>
+<thead>
+<tr>
+<th>Product</th>
+<th>Script</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>HRDPS_&lt;run&gt;_gust.nc</code></td>
+<td><code>hrdps_correct.py --gust-pending</code></td>
+<td>10 m gust (m/s), nearest cell, no correction, leads 1–48</td>
+</tr>
+<tr>
+<td><code>HRDPS_&lt;run&gt;_snlvl.nc</code></td>
+<td><code>snlvl_fetch.py --forecast-run &lt;run&gt;</code></td>
+<td>MSC snow level (m) at every cell; NaN where MSC gives a negative code (no precipitation); leads 1–6 per run, 1–48 for the forecast run; only runs still on Datamart (backfilled from 12 Oct 2026)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="6-smet-assembly">6. SMET assembly<a class="headerlink" href="#6-smet-assembly" title="Permanent link">&para;</a></h2>
+<p>Three generators, one per configuration, all reading the corrected cells. Each writes per domain:</p>
+<div class="highlight"><pre><span></span><code>&lt;config&gt;/smet/&lt;domain&gt;/nowcast/&lt;id&gt;.smet     season-to-date nowcast
+&lt;config&gt;/smet/&lt;domain&gt;/forecast/&lt;id&gt;.smet    06Z run, leads 1-48
+&lt;config&gt;/smet/&lt;domain&gt;/locations.geojson     one Point per SMET (station_id = SMET id, altitude)
+&lt;config&gt;/smet/&lt;domain&gt;/regions.geojson       polygons, id = region_id
+&lt;config&gt;/smet/snippets/&lt;id&gt;.ini              per-point SNOWPACK ini snippet
+&lt;config&gt;/smet/manifest.json                  period, forecast run, gap_hours, members / donors
+</code></pre></div>
+<p>The daily run writes into a fresh folder and swaps it in only on success.</p>
+<h3 id="61-semi-distributed-smet_hex_v2py">6.1 Semi-distributed: <code>smet_hex_v2.py</code><a class="headerlink" href="#61-semi-distributed-smet_hex_v2py" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Hexagons: <code>static/hex_grid_fit_v2/&lt;op&gt;.geojson</code> (15 km), bands: <code>configs/hex_v2.yaml</code>.</li>
+<li>A cell belongs to hexagon <em>H</em> and band <em>B</em> if its <strong>centre</strong> lies in <em>H</em> and its integer altitude lies in <em>B</em>.</li>
+<li>One point per hexagon × band: the hourly <strong>median</strong> of the members for TA, RH, VW, ISWR, ILWR, PSUM; a
+  <strong>circular mean</strong> for DW. Altitude = median member altitude; position = hexagon centre.</li>
+<li>Id <code>&lt;hex&gt;_&lt;BTL|TL|ALP&gt;</code>, region id = hexagon label.</li>
+</ul>
+<h3 id="62-fully-gridded-smet_gridpy">6.2 Fully gridded: <code>smet_grid.py</code><a class="headerlink" href="#62-fully-gridded-smet_gridpy" title="Permanent link">&para;</a></h3>
+<ul>
+<li>One point per HRDPS cell whose altitude lies inside the operation's bands; cells below the BTL lower limit are
+  not simulated.</li>
+<li>Id <code>&lt;prefix&gt;_&lt;i&gt;_&lt;j&gt;</code>; region id = the operation (<code>RP-01</code>, <code>MW-01</code>, <code>WH-01</code>, <code>BA-01</code>).</li>
+<li>Also writes <code>cells.geojson</code> (cell polygons, corners = means of the 2 × 2 grid nodes, ~2.48 × 2.49 km) for the
+  map fill.</li>
+</ul>
+<h3 id="63-stations-smet_stationspy">6.3 Stations: <code>smet_stations.py</code><a class="headerlink" href="#63-stations-smet_stationspy" title="Permanent link">&para;</a></h3>
+<p>See <a href="#7-weather-stations">§7</a>.</p>
+<h3 id="64-smet-details-that-matter">6.4 SMET details that matter<a class="headerlink" href="#64-smet-details-that-matter" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Timestamps naive, header <code>tz = 0</code></td>
+<td>xsnow parses <code>…Z</code> as tz-aware, atoolchain's window is naive → comparison error</td>
+</tr>
+<tr>
+<td><code>plot_unit = time ° W/m2 W/m2 mm - K m/s</code></td>
+<td>without it xsnow cannot convert RH/TA when staging for SNOWPACK</td>
+</tr>
+<tr>
+<td>First row on the zarr time grid</td>
+<td>the zarr time axis starts at <code>season_start</code>; the first row (4 Oct 01:00) must be on its 15 min grid</td>
+</tr>
+<tr>
+<td>Snippet <code>PSUM::GENERATOR = CST 0</code></td>
+<td>the cold-start <code>.sno</code> takes the first SMET row as profile date, so PSUM <code>ACCUMULATE</code> has no earlier point for the first step. Side effect: any later PSUM gap would become 0 mm (hence the gap rule in §4)</td>
+</tr>
+<tr>
+<td>EPSG per operation</td>
+<td>32610 (Whistler, UTM 10N), 32611 (Rogers, MWHS, Banff, UTM 11N)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-weather-stations">7. Weather stations<a class="headerlink" href="#7-weather-stations" title="Permanent link">&para;</a></h2>
+<h3 id="71-ingest-stations_fetchpy">7.1 Ingest: <code>stations_fetch.py</code><a class="headerlink" href="#71-ingest-stations_fetchpy" title="Permanent link">&para;</a></h3>
+<p>Hourly at :40 UTC. Every response is stored <strong>unchanged</strong> (gzip) so short provider windows are not lost:</p>
+<div class="highlight"><pre><span></span><code>raw/stations/&lt;provider&gt;/&lt;station&gt;/YYYY/MM/DD/&lt;fetched&gt;Z.&lt;json|xml|html&gt;.gz
+stations/status.json      {provider/station: last_fetch_ok, newest_obs_utc, rows, error}
+</code></pre></div>
+<p>An e-mail goes out once per station and day when its newest observation is older than 6 h.</p>
+<table>
+<thead>
+<tr>
+<th>Provider</th>
+<th>Format</th>
+<th>Window</th>
+<th>Clock</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Avalanche Canada</td>
+<td>JSON</td>
+<td>~7 days</td>
+<td>UTC offset in the string</td>
+</tr>
+<tr>
+<td>Whistler Blackcomb</td>
+<td>XML</td>
+<td>current values</td>
+<td>America/Vancouver</td>
+</tr>
+<tr>
+<td>Mike Wiegele (Mt St Anne)</td>
+<td>HTML table</td>
+<td><strong>26 h</strong></td>
+<td>fixed UTC−7 (<code>Etc/GMT+7</code>), no year in the rows</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition info">
+<p class="admonition-title">Time zones</p>
+<p>The worker's tzdata (2026e) keeps America/Edmonton at UTC−6 and America/Vancouver at UTC−7 all year from
+Nov 2026. The Mt St Anne clock was checked against the shortwave signal (sunrise/sunset) and is a fixed UTC−7.
+Do time-zone work on the worker, not with an older local tzdata.</p>
+</div>
+<h3 id="72-patching-smet_stationspy-configsstations_v1yaml">7.2 Patching: <code>smet_stations.py</code> + <code>configs/stations_v1.yaml</code><a class="headerlink" href="#72-patching-smet_stationspy-configsstations_v1yaml" title="Permanent link">&para;</a></h3>
+<p>Per station and field, the <strong>donors</strong> are tried in order, hour by hour; the first valid value wins:</p>
+<ol>
+<li>station observation (raw archive, plus with <code>--live</code> the provider's current window),</li>
+<li><code>hrdps</code> = the corrected series of the nearest 2.5 km cell (all within 1.6 km).</li>
+</ol>
+<p>A donor at another altitude is moved to the station: TA/RH with the same lapse rates (<code>RH_METHOD=fixed</code>), PSUM by
+<strong>+5 % per 100 m</strong>. ISWR/ILWR come from HRDPS unless the station measures them. The forecast is HRDPS only.</p>
+<p><strong>QC</strong> (values outside → missing): TA −45…40 °C, RH 5…100 %, VW 0…40 m/s, DW 0…360°, PSUM 0…50 mm,
+ISWR 0…1400, ILWR 100…550 W/m². RH &lt; 5 % counts as a sensor fault (Fidelity reports 0).</p>
+<table>
+<thead>
+<tr>
+<th>Station</th>
+<th>Operation</th>
+<th>Elev.</th>
+<th>From the station</th>
+<th>From HRDPS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fidelity</td>
+<td>Rogers Pass</td>
+<td>1905 m</td>
+<td>TA, RH, wind, precipitation (RH = 0 fails QC → HRDPS)</td>
+<td>radiation</td>
+</tr>
+<tr>
+<td>Bosworth lower</td>
+<td>Banff</td>
+<td>2210 m</td>
+<td>TA, RH (then Bosworth upper, 2745 m); wind from Bosworth upper</td>
+<td>precipitation, radiation</td>
+</tr>
+<tr>
+<td>Bow Summit</td>
+<td>Banff</td>
+<td>2040 m</td>
+<td>TA, RH</td>
+<td>wind, precipitation, radiation</td>
+</tr>
+<tr>
+<td>Lookout</td>
+<td>Banff</td>
+<td>2640 m</td>
+<td>TA, RH, wind</td>
+<td>precipitation, radiation</td>
+</tr>
+<tr>
+<td>Whistler Rendezvous</td>
+<td>Whistler</td>
+<td>1920 m</td>
+<td>TA, RH (Rendezvous); wind (Horstman Hut, 2180 m); precipitation (Catskinner, 1550 m)</td>
+<td>radiation</td>
+</tr>
+<tr>
+<td>Mt St Anne</td>
+<td>MWHS</td>
+<td>1900 m</td>
+<td>TA, wind, <strong>ISWR, ILWR</strong> (CM3 / CG3)</td>
+<td>RH (sensor fault), precipitation (gauge does not catch snow)</td>
+</tr>
+</tbody>
+</table>
+<p>The manifest lists, per station and field, how many hours came from each donor.</p>
+<h2 id="8-weather-values-for-the-dashboard">8. Weather values for the dashboard<a class="headerlink" href="#8-weather-values-for-the-dashboard" title="Permanent link">&para;</a></h2>
+<p><code>pipeline/geojson_extras.py</code> runs after atoolchain and adds <code>weather.*</code> to every feature of
+<code>&lt;node&gt;/geojson/&lt;stamp&gt;.&lt;aspect&gt;.json</code>. Values cover the 24 h ending at the file's time; a failure is logged, not fatal.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Unit</th>
+<th>From</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>hn24</code>, <code>hn48</code></td>
+<td>cm</td>
+<td>SNOWPACK HN24 of the feature's slope, repaired at restart rows (below)</td>
+</tr>
+<tr>
+<td><code>rain24</code></td>
+<td>mm</td>
+<td>SNOWPACK <code>MS_Rain</code> of the slope</td>
+</tr>
+<tr>
+<td><code>vw24</code>, <code>dw24</code>, <code>dw24_sector</code></td>
+<td>km/h, °</td>
+<td>forcing wind (flat), vector mean weighted by speed</td>
+</tr>
+<tr>
+<td><code>gust24</code></td>
+<td>km/h</td>
+<td>max hourly HRDPS gust, median over the location's cells</td>
+</tr>
+<tr>
+<td><code>ta</code>, <code>z</code></td>
+<td>°C, m</td>
+<td>forcing TA at the time step and its altitude</td>
+</tr>
+<tr>
+<td><code>snowline</code></td>
+<td>m</td>
+<td>elevation where the wet-bulb temperature (Stull) is +1 °C, TA/RH moved with the monthly lapse rates; precipitation-weighted mean if ≥ 1 mm fell, else median; semi-distributed bands take their region's BTL value</td>
+</tr>
+<tr>
+<td><code>snlvl</code></td>
+<td>m</td>
+<td>MSC snow level, median of the location's cells and hours</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition bug">
+<p class="admonition-title">HN24 at the daily restart</p>
+<p>The daily SNOWPACK resume at 06Z writes a record with every <code>HN*</code> / <code>MS_*</code> at 0, so AWSOME's own <code>hn24</code> is 0 at
+every past 06Z. <code>weather.hn24</code> repairs it as <code>HN24(t+3h) − HN3(t+3h) + HN3(t−21h)</code>.</p>
+</div>
+<h2 id="9-script-map">9. Script map<a class="headerlink" href="#9-script-map" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Script</th>
+<th>Runs</th>
+<th>Reads</th>
+<th>Writes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ingest/nwp_fetch.py</code></td>
+<td>hourly</td>
+<td>Datamart</td>
+<td><code>raw/&lt;model&gt;/…</code></td>
+</tr>
+<tr>
+<td><code>ingest/nwp_check.py</code></td>
+<td>daily</td>
+<td><code>raw/</code> manifests</td>
+<td>alert e-mail</td>
+</tr>
+<tr>
+<td><code>ingest/stations_fetch.py</code></td>
+<td>hourly</td>
+<td>provider pages</td>
+<td><code>raw/stations/…</code>, <code>stations/status.json</code></td>
+</tr>
+<tr>
+<td><code>pipeline/hrdps_correct.py</code></td>
+<td>daily (<code>--pending</code>)</td>
+<td><code>raw/hrdps</code>, cell list</td>
+<td><code>corrected/hrdps/…_cells.nc</code>, <code>_gust.nc</code></td>
+</tr>
+<tr>
+<td><code>pipeline/lapse.py</code></td>
+<td>library</td>
+<td>—</td>
+<td>monthly lapse rates, SMET formatting</td>
+</tr>
+<tr>
+<td><code>pipeline/snlvl_fetch.py</code></td>
+<td>daily</td>
+<td>Datamart WEonG</td>
+<td><code>corrected/hrdps/…_snlvl.nc</code></td>
+</tr>
+<tr>
+<td><code>pipeline/smet_hex_v2.py</code></td>
+<td>daily</td>
+<td>corrected cells, hexagons</td>
+<td>hex SMETs</td>
+</tr>
+<tr>
+<td><code>pipeline/smet_grid.py</code></td>
+<td>daily</td>
+<td>corrected cells</td>
+<td>grid SMETs, <code>cells.geojson</code></td>
+</tr>
+<tr>
+<td><code>pipeline/smet_stations.py</code></td>
+<td>daily</td>
+<td>corrected cells, <code>raw/stations</code></td>
+<td>station SMETs</td>
+</tr>
+<tr>
+<td><code>pipeline/geojson_extras.py</code></td>
+<td>daily</td>
+<td><code>snowpack.zarr</code>, gust, snow level</td>
+<td><code>weather.*</code> in the geojson</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 25, 2026 20:08:27 UTC">November 25, 2026</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../toolchain/" class="md-footer__link md-footer__link--prev" aria-label="Previous: II. Tool Chain Overview">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                II. Tool Chain Overview
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../snowpack/" class="md-footer__link md-footer__link--next" aria-label="Next: IV. SNOWPACK">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                IV. SNOWPACK
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy", "content.tabs.link", "content.action.edit"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>
