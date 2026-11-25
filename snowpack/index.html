@@ -476,10 +476,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-ini-nwp-preini-main-settings" class="md-nav__link">
+  <a href="#4-ini-main-settings" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. ini: nwp-pre.ini (main settings)
+        4. ini (main settings)
       
     </span>
   </a>
@@ -696,10 +696,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-ini-nwp-preini-main-settings" class="md-nav__link">
+  <a href="#4-ini-main-settings" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. ini: nwp-pre.ini (main settings)
+        4. ini (main settings)
       
     </span>
   </a>
@@ -902,10 +902,12 @@ first edge are dropped). The SMET <code>station_id</code> and the location id mu
 </table>
 <p>All slopes use the same weather series (no radiation or wind redistribution by aspect beyond SNOWPACK's own slope
 radiation). Heights in the output are <strong>vertical</strong> (m above ground) on every slope.</p>
-<h2 id="4-ini-nwp-preini-main-settings">4. ini: <code>nwp-pre.ini</code> (main settings)<a class="headerlink" href="#4-ini-nwp-preini-main-settings" title="Permanent link">&para;</a></h2>
-<p>Settings from AWSOME's <code>profsnow/snowpack/templates/nwp-pre.ini</code>. <code>PLACEHOLDER</code> values are filled by atoolchain
-(coordinates, paths, number of slopes). The worker runs a pinned AWSOME version; check the template there before
-quoting a value in a paper.</p>
+<h2 id="4-ini-main-settings">4. ini (main settings)<a class="headerlink" href="#4-ini-main-settings" title="Permanent link">&para;</a></h2>
+<p>atoolchain builds one ini per point from AWSOME's <code>profsnow</code> templates <code>nwp-pre.ini</code> + <code>nwp.ini</code> (profsnow <code>dev</code>,
+<code>91ed154</code>, 30 Oct 2026) and writes it to <code>&lt;node&gt;/pro/&lt;location&gt;_NO_EXP.ini</code>. The values below are read from the
+generated ini on the worker (<code>whistler_hex</code>, daily run of 25 Nov 2026); <code>PLACEHOLDER</code> keys of the template
+(coordinates, paths, number of slopes) are filled there, e.g. <code>COORDSYS = PROJ</code>, <code>COORDPARAM = 32610</code>,
+<code>NUMBER_SLOPES = 5</code>.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:6"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><input id="__tabbed_1_5" name="__tabbed_1" type="radio" /><input id="__tabbed_1_6" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">[SNOWPACK]</label><label for="__tabbed_1_2">[SNOWPACKADVANCED]</label><label for="__tabbed_1_3">[INTERPOLATIONS1D]</label><label for="__tabbed_1_4">[FILTERS]</label><label for="__tabbed_1_5">[GENERATORS] + snippets</label><label for="__tabbed_1_6">[OUTPUT]</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -967,7 +969,7 @@ quoting a value in a paper.</p>
 </tr>
 <tr>
 <td><code>SNOW_EROSION</code> / <code>SNOW_REDISTRIBUTION</code></td>
-<td>FALSE / FALSE → <strong>no wind drift</strong> modelled</td>
+<td>NONE / NONE → <strong>no wind drift</strong> modelled</td>
 </tr>
 <tr>
 <td><code>ALLOW_ADAPTIVE_TIMESTEPPING</code></td>
@@ -996,6 +998,18 @@ quoting a value in a paper.</p>
 <tr>
 <td><code>NEW_SNOW_GRAIN_SIZE</code></td>
 <td>0.3 mm</td>
+</tr>
+<tr>
+<td><code>HN_DENSITY</code> / <code>HN_DENSITY_PARAMETERIZATION</code></td>
+<td>PARAMETERIZED / LEHNING_NEW</td>
+</tr>
+<tr>
+<td><code>ALBEDO_PARAMETERIZATION</code></td>
+<td>LEHNING_2 (with ageing)</td>
+</tr>
+<tr>
+<td><code>ALLOW_FREEZING_RAIN</code></td>
+<td>TRUE</td>
 </tr>
 <tr>
 <td><code>METAMORPHISM_MODEL</code> / <code>STRENGTH_MODEL</code> / <code>VISCOSITY_MODEL</code></td>
@@ -1110,7 +1124,7 @@ quoting a value in a paper.</p>
 </tr>
 <tr>
 <td>PSUM <em>(snippet, per point)</em></td>
-<td>CST 0 → fills the first step, which <code>ACCUMULATE</code> cannot compute after a cold start</td>
+<td>CST 0 → fills the first step, which <code>ACCUMULATE</code> cannot compute after a cold start; present in every generated ini</td>
 </tr>
 </tbody>
 </table>
@@ -1133,8 +1147,28 @@ quoting a value in a paper.</p>
 <td>0.125 d (3 h)</td>
 </tr>
 <tr>
-<td><code>PROF_FORMAT</code></td>
-<td>PRO in the template; atoolchain switches to the ZarrIO output for <code>output_format: zarr</code></td>
+<td><code>PROF_FORMAT</code> / <code>TS_FORMAT</code></td>
+<td>ZARR / ZARR (set by atoolchain for <code>output_format: zarr</code>; the template has PRO)</td>
+</tr>
+<tr>
+<td><code>ZARR_PATH</code></td>
+<td><code>&lt;node&gt;/snowpack.zarr</code>, shared archive for all locations of the node (<code>ZARR_SHARED_ARCHIVE = TRUE</code>)</td>
+</tr>
+<tr>
+<td><code>ZARR_TIME_ORIGIN</code> / <code>ZARR_TIME_STEP</code></td>
+<td>season start 2026-10-04T00 / 3600 s; <code>ZARR_TOTAL_TIMES = 7200</code></td>
+</tr>
+<tr>
+<td><code>ZARR_MAX_LAYERS</code> / chunks</td>
+<td>600 / 5 locations × 720 times, zstd</td>
+</tr>
+<tr>
+<td><code>HAZARD_STEPS_BETWEEN</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>SNOW_WRITE</code></td>
+<td>FALSE in the run ini; the <code>.sno</code> state in <code>snow-nowcast/</code> is handled by atoolchain</td>
 </tr>
 <tr>
 <td><code>HARDNESS_IN_NEWTON</code></td>
@@ -1201,38 +1235,50 @@ quoting a value in a paper.</p>
 <a href="https://gitlab.com/avalanche-warning/snow-cover/postprocessing/instability/datetags">datetags</a>,
 <a href="https://gitlab.com/avalanche-warning/snow-cover/postprocessing/pwet">pwet</a>.</p>
 <h2 id="6-run-times-t3large-2-vcpu">6. Run times (t3.large, 2 vCPU)<a class="headerlink" href="#6-run-times-t3large-2-vcpu" title="Permanent link">&para;</a></h2>
+<p>Daily run of 25 Nov 2026 (<code>report.json</code> per node; whole season recomputed in the post-processing steps):</p>
 <table>
 <thead>
 <tr>
 <th>Node</th>
-<th>Cold season run</th>
-<th>Notes</th>
+<th>Total</th>
+<th>SNOWPACK</th>
+<th>xsnowpack</th>
+<th>simplified</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>mwhs_hex</code> (21 locations × 5 slopes)</td>
-<td>2 min 24 s (SNOWPACK 84 s, xsnowpack 38 s)</td>
-<td>to 3 Nov 2026</td>
+<td><code>whistler_hex</code></td>
+<td>4 min 35 s</td>
+<td>38 s</td>
+<td>46 s</td>
+<td>2 min 30 s</td>
 </tr>
 <tr>
 <td><code>whistler_grid</code> (259 cells)</td>
-<td>58 min</td>
-<td>first grid run</td>
+<td>31 min 38 s</td>
+<td>8 min 41 s</td>
+<td>5 min 27 s</td>
+<td>12 min 43 s</td>
 </tr>
 <tr>
-<td><code>rogers_grid</code> / <code>banff_grid</code> / <code>mwhs_grid</code></td>
-<td>31 / 42 / 45 min</td>
-<td><code>simplified</code> is the slowest step (~8 min per node)</td>
+<td><code>banff_grid</code></td>
+<td>34 min 23 s</td>
+<td>8 min 18 s</td>
+<td>7 min 3 s</td>
+<td>14 min 57 s</td>
 </tr>
 <tr>
-<td>station nodes</td>
-<td>1.3–1.7 min</td>
-<td></td>
+<td><code>banff_stn</code></td>
+<td>2 min 19 s</td>
+<td>8 s</td>
+<td>13 s</td>
+<td>1 min 47 s</td>
 </tr>
 </tbody>
 </table>
-<p>Daily runs are incremental (one day + forecast) and much shorter.</p>
+<p><code>simplified</code> is the slowest step on every node. First cold season runs: <code>mwhs_hex</code> 2 min 24 s, <code>whistler_grid</code>
+58 min, other grids 31–45 min, station nodes 1.3–1.7 min.</p>
 <h2 id="7-commands">7. Commands<a class="headerlink" href="#7-commands" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="c1"># inside the container</span>
 atoolchain<span class="w"> </span>/ext_awsome/hex_v2/hex_v2_recipe.yaml<span class="w"> </span>--toolchain<span class="w"> </span>mwhs_hex<span class="w"> </span>--date-opera<span class="w"> </span><span class="m">2026</span>-11-03T00:00
@@ -1259,7 +1305,7 @@ atoolchain<span class="w"> </span>needs<span class="w"> </span>&lt;recipe&gt;<sp
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 25, 2026 20:08:27 UTC">November 25, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 25, 2026 21:41:27 UTC">November 25, 2026</span>
   </span>
 
     
