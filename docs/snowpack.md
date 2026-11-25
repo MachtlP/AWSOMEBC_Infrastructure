@@ -90,11 +90,13 @@ sequenceDiagram
 All slopes use the same weather series (no radiation or wind redistribution by aspect beyond SNOWPACK's own slope
 radiation). Heights in the output are **vertical** (m above ground) on every slope.
 
-## 4. ini: `nwp-pre.ini` (main settings)
+## 4. ini (main settings)
 
-Settings from AWSOME's `profsnow/snowpack/templates/nwp-pre.ini`. `PLACEHOLDER` values are filled by atoolchain
-(coordinates, paths, number of slopes). The worker runs a pinned AWSOME version; check the template there before
-quoting a value in a paper.
+atoolchain builds one ini per point from AWSOME's `profsnow` templates `nwp-pre.ini` + `nwp.ini` (profsnow `dev`,
+`91ed154`, 30 Oct 2026) and writes it to `<node>/pro/<location>_NO_EXP.ini`. The values below are read from the
+generated ini on the worker (`whistler_hex`, daily run of 25 Nov 2026); `PLACEHOLDER` keys of the template
+(coordinates, paths, number of slopes) are filled there, e.g. `COORDSYS = PROJ`, `COORDPARAM = 32610`,
+`NUMBER_SLOPES = 5`.
 
 === "[SNOWPACK]"
 
@@ -114,7 +116,7 @@ quoting a value in a paper.
     | Key | Value |
     |---|---|
     | `VARIANT` / `RESEARCH` | DEFAULT / TRUE |
-    | `SNOW_EROSION` / `SNOW_REDISTRIBUTION` | FALSE / FALSE → **no wind drift** modelled |
+    | `SNOW_EROSION` / `SNOW_REDISTRIBUTION` | NONE / NONE → **no wind drift** modelled |
     | `ALLOW_ADAPTIVE_TIMESTEPPING` | TRUE |
     | `THRESH_RAIN` | 1.2 °C |
     | `FORCE_RH_WATER` / `THRESH_RH` | TRUE / 0.5 |
@@ -122,6 +124,9 @@ quoting a value in a paper.
     | `HOAR_DENSITY_BURIED` / `HOAR_MIN_SIZE_BURIED` / `HOAR_DENSITY_SURF` | 125 kg m⁻³ / 2.0 mm / 100 kg m⁻³ |
     | `MIN_DEPTH_SUBSURF` | 0.07 m |
     | `NEW_SNOW_GRAIN_SIZE` | 0.3 mm |
+    | `HN_DENSITY` / `HN_DENSITY_PARAMETERIZATION` | PARAMETERIZED / LEHNING_NEW |
+    | `ALBEDO_PARAMETERIZATION` | LEHNING_2 (with ageing) |
+    | `ALLOW_FREEZING_RAIN` | TRUE |
     | `METAMORPHISM_MODEL` / `STRENGTH_MODEL` / `VISCOSITY_MODEL` | DEFAULT |
     | `WATERTRANSPORTMODEL_SNOW` | BUCKET |
     | `ENABLE_VAPOUR_TRANSPORT` | TRUE |
@@ -154,7 +159,7 @@ quoting a value in a paper.
     | Field | Generator |
     |---|---|
     | TSG | CST 273.15 K (ground at 0 °C) |
-    | PSUM *(snippet, per point)* | CST 0 → fills the first step, which `ACCUMULATE` cannot compute after a cold start |
+    | PSUM *(snippet, per point)* | CST 0 → fills the first step, which `ACCUMULATE` cannot compute after a cold start; present in every generated ini |
 
 === "[OUTPUT]"
 
@@ -162,7 +167,12 @@ quoting a value in a paper.
     |---|---|
     | `PROF_WRITE` / `TS_WRITE` | TRUE / TRUE |
     | `PROF_DAYS_BETWEEN` / `TS_DAYS_BETWEEN` | 0.125 d (3 h) |
-    | `PROF_FORMAT` | PRO in the template; atoolchain switches to the ZarrIO output for `output_format: zarr` |
+    | `PROF_FORMAT` / `TS_FORMAT` | ZARR / ZARR (set by atoolchain for `output_format: zarr`; the template has PRO) |
+    | `ZARR_PATH` | `<node>/snowpack.zarr`, shared archive for all locations of the node (`ZARR_SHARED_ARCHIVE = TRUE`) |
+    | `ZARR_TIME_ORIGIN` / `ZARR_TIME_STEP` | season start 2026-10-04T00 / 3600 s; `ZARR_TOTAL_TIMES = 7200` |
+    | `ZARR_MAX_LAYERS` / chunks | 600 / 5 locations × 720 times, zstd |
+    | `HAZARD_STEPS_BETWEEN` | 2 |
+    | `SNOW_WRITE` | FALSE in the run ini; the `.sno` state in `snow-nowcast/` is handled by atoolchain |
     | `HARDNESS_IN_NEWTON` | FALSE |
     | `OUT_HAZ`, `OUT_STAB`, `OUT_MASS`, `OUT_METEO`, … | TRUE |
     | `TIME_ZONE` | 0 (UTC) |
@@ -186,14 +196,17 @@ Post-processing code: [atoolchain](https://gitlab.com/avalanche-warning/snow-cov
 
 ## 6. Run times (t3.large, 2 vCPU)
 
-| Node | Cold season run | Notes |
-|---|---|---|
-| `mwhs_hex` (21 locations × 5 slopes) | 2 min 24 s (SNOWPACK 84 s, xsnowpack 38 s) | to 3 Nov 2026 |
-| `whistler_grid` (259 cells) | 58 min | first grid run |
-| `rogers_grid` / `banff_grid` / `mwhs_grid` | 31 / 42 / 45 min | `simplified` is the slowest step (~8 min per node) |
-| station nodes | 1.3–1.7 min | |
+Daily run of 25 Nov 2026 (`report.json` per node; whole season recomputed in the post-processing steps):
 
-Daily runs are incremental (one day + forecast) and much shorter.
+| Node | Total | SNOWPACK | xsnowpack | simplified |
+|---|---|---|---|---|
+| `whistler_hex` | 4 min 35 s | 38 s | 46 s | 2 min 30 s |
+| `whistler_grid` (259 cells) | 31 min 38 s | 8 min 41 s | 5 min 27 s | 12 min 43 s |
+| `banff_grid` | 34 min 23 s | 8 min 18 s | 7 min 3 s | 14 min 57 s |
+| `banff_stn` | 2 min 19 s | 8 s | 13 s | 1 min 47 s |
+
+`simplified` is the slowest step on every node. First cold season runs: `mwhs_hex` 2 min 24 s, `whistler_grid`
+58 min, other grids 31–45 min, station nodes 1.3–1.7 min.
 
 ## 7. Commands
 

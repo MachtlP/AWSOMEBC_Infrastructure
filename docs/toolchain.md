@@ -148,12 +148,14 @@ keeps yesterday's data until a run succeeds.
 ## 6. Software versions
 
 AWSOME is installed from its GitLab group at pinned commits (recorded in `versions.json` on the worker and in the
-ops bucket). Two pins deviate from the defaults (state 3 Nov 2026):
+ops bucket). Checked in the container on 25 Nov 2026:
 
-| Component | Pin | Why |
+| Component | Branch / commit | Note |
 |---|---|---|
-| SNOWPACK | branch `feat/zarr-plugin-aw` (3.7.1+aw) | the default deb has no ZarrIO plugin, but `output_format: zarr` needs it |
-| xsnow | branch `feat/adashboard` | atoolchain imports `ZarrTailSlopeMismatch`, which only that branch has |
+| SNOWPACK | `feat/zarr-plugin-aw` (3.7.1+aw) | deviates from default: the default deb has no ZarrIO plugin, but `output_format: zarr` needs it (`PROF_FORMAT = ZARR` in the run ini) |
+| xsnow | `feat/adashboard`, `19756eb` (17 Oct 2026) | deviates from default: atoolchain imports `ZarrTailSlopeMismatch`, which only that branch has |
+| atoolchain | `dev`, `8bccfeb` (2 Nov 2026) | |
+| profsnow (ini templates) | `dev`, `91ed154` (30 Oct 2026) | |
 
 A reinstall must set `AWSOME_VERSION_SNOWPACK=feat/zarr-plugin-aw`.
 
