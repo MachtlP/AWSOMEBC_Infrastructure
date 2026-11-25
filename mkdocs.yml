@@ -1,0 +1,84 @@
+site_name: AWSOME BC Infrastructure
+site_description: Technical documentation of the snowpackbc tool chain (AWSOME for British Columbia)
+site_url: https://machtlp.github.io/AWSOMEBC_Infrastructure/
+repo_url: https://github.com/MachtlP/AWSOMEBC_Infrastructure
+repo_name: AWSOMEBC_Infrastructure
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  language: en
+  icon:
+    logo: material/server-network
+    repo: fontawesome/brands/github
+  favicon: assets/images/mountain_icon.svg
+  palette:
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue grey
+      accent: light blue
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue grey
+      accent: light blue
+      toggle:
+        icon: material/weather-night
+        name: Follow system theme
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.tabs.link
+    - content.action.edit
+
+plugins:
+  - search
+  - git-revision-date-localized:
+      type: date
+      fallback_to_build_date: true
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - def_list
+  - footnotes
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+extra_css:
+  - stylesheets/extra.css
+
+nav:
+  - I. Home: index.md
+  - II. Tool Chain Overview: toolchain.md
+  - III. Weather Input: weather-input.md
+  - IV. SNOWPACK: snowpack.md
+  - V. xsnow: xsnow.md
+  - VI. AvAPro: avapro.md
+  - VII. Observations & Assessments: observations.md
